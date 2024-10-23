@@ -1,6 +1,7 @@
 /**
  * Ownership:
  *  Every value is 'owned' by a single variable, struct, vector, etc at a time.
+ *  Cada valor le pertenece a una sola variable, struct, vector etc  en su momento
  *  Reasiagnar el valor a otra variable, pasarla a una function, agregandola a unvector etc, mueve el valor. La vieja variable ya no puede ser usada.
  *  
  * Borrowing: 
@@ -49,10 +50,9 @@ fn print_account(account: Account) {
 
 fn main() {
     let bank = Bank::new();
-    let account = Account::new(1, String::from("Me"));
 
-    //println!("{:#?}", bank);
-    print_account(account);
-    print_account(account);
+    let accounts = bank.accounts;
+
+    print!("{:#?}", bank.accounts);
 }
 
