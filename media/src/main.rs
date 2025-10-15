@@ -15,6 +15,10 @@
  *   Tiene dos variantes 'Some' y 'None'
  *   Si se quiere trabajar con Option se tiene que usar coincidencia de patrones(if let) o una declaracion de match
  *   Te fuerza a manejar la situacion donde tienes un valor y la situacion donde no lo tienes
+ *  item.unwrap(): si el item es un Some, regresa el valor dentro de Some. Si item es none, "panics!"(error). Se puede usar para un rapido debugg o ejemplos
+ *  item.expect("Mensaje de error"): si el item es un Some, regresa el valor dentro de Some. Si item es none, imprime el mensaje de debug enviado y "panics!".
+ *    Se usa cuando se busca "crashear" si no existe un valor.
+ *  item.unwrap_or(&placeholder): si el item es Some, regresa el valor dentro de Some. Si Item es None, regresa el valor enviado por default y no entra en panico. Se usa cuando hace sentido proveer un valor por error.
  */
 
 enum Media {
@@ -127,20 +131,8 @@ fn main() {
     catalog.add(placeholder);
 
     //manejar cuando exista o no el indice
-    // let item = catalog.get_by_index(40);
-    // println!("{:#?}", item);
-    match catalog.get_by_index(0) {
-        Some(value) => {
-            println!("Item: {:#?}", value);
-        }
-        None => {
-            println!("No value here!");
-        }
-    }
-
-    // if let Some(value) = catalog.get_by_index(404) {
-    //     print!("Item in patter match: {:#?}", value)
-    // } else {
-    //     println!("NO VALUE!!")
-    // }
+    let item = catalog.get_by_index(40);
+    let placeholder = Media::Placeholder;
+    //println!("{:#?}", item.unwrap());
+    println!("{:#?}", item.unwrap_or(&placeholder));
 }
