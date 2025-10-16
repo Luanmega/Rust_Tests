@@ -136,3 +136,30 @@ fn main() {
     //println!("{:#?}", item.unwrap());
     println!("{:#?}", item.unwrap_or(&placeholder));
 }
+
+//Ejercicio 57:
+// #[derive(Debug)]
+// struct Account {
+//     balance: i32
+// }
+
+// fn main() {
+//     let mut accounts: Vec<Account> = vec![
+//         Account { balance: 0 },
+//         Account { balance: 10 }
+//     ];
+
+//     // Add code here:
+//     println!("{:#?}", accounts.first_mut());
+
+//     match accounts.first_mut() {
+//         Some(value) => {
+//             println!("{:#?}", "Has a value");
+//             value.balance = value.balance + 30;
+//             println!("{:#?}", value)
+//         }
+//         None => {
+//             println!("{:#?}", "No account found");
+//         }
+//     }
+// }
