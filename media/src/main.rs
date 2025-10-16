@@ -1,4 +1,3 @@
-#[derive(Debug)]
 /**
  * Enum: permite definir modelo con datos similares
  * Se define una sola estructura que puede almacenar tipos de datos similares(title en este ejemplo)
@@ -20,79 +19,17 @@
  *    Se usa cuando se busca "crashear" si no existe un valor.
  *  item.unwrap_or(&placeholder): si el item es Some, regresa el valor dentro de Some. Si Item es None, regresa el valor enviado por default y no entra en panico. Se usa cuando hace sentido proveer un valor por error.
  */
-
-enum Media {
-    //Book, movie, audiobook son llamados Variants
-    Book { title: String, author: String },
-    Movie { title: String, director: String },
-    Audiobook { title: String },
-    Podcast(u32),
-    Placeholder,
-}
-
-impl Media {
-    fn description(&self) -> String {
-        //Es self un libro, una pelicula, un audiolibro?
-        //if tenemos un libro=> format un libro con datos
-        // if let Media::Book { title, author } = self {
-        //     format!("Book: {} {}", title, author)
-        // } else if let Media::Movie { title, director } = self {
-        //     format!("Movie: {} {}", title, director)
-        // } else if let Media::Audiobook { title } = self {
-        //     format!("Audiobook: {}", title)
-        // } else {
-        //     String::from("Media description")
-        // }
-
-        match self {
-            //Si self es igual a Media::Book dame acceso a title y author
-            Media::Book { title, author } => {
-                format!("Book: {} {}", title, author)
-            }
-            Media::Movie { title, director } => {
-                format!("Movie: {} {}", title, director)
-            }
-            Media::Audiobook { title } => {
-                format!("Audiobook: {}", title)
-            }
-            Media::Podcast(id) => {
-                format!("Podcast: {}", id)
-            }
-            Media::Placeholder => {
-                format!("Placeholder")
-            }
-        }
-    }
-}
-
-//Catalogo que tendra libros, peliculas y audiolibros
-#[derive(Debug)]
-struct Catalog {
-    items: Vec<Media>,
-}
-
-impl Catalog {
-    fn new() -> Self {
-        Catalog { items: vec![] }
-    }
-
-    fn add(&mut self, media: Media) {
-        self.items.push(media);
-    }
-
-    fn get_by_index(&self, index: usize) -> Option<&Media> {
-        if self.items.len() > index {
-            //Good! We have something to return
-            // MightHaveAValue::ThereIsAValue(&self.items[index])
-            Some(&self.items[index])
-        } else {
-            //Bad! We dont have anything to return!
-            // MightHaveAValue::NoValueAvailable
-            None
-        }
-    }
-}
-
+/**
+ * Module: es posible crear dentro de un mismo archivo un modulo para englobar estructuras, funciones o enums relacionados.
+ *  Toda funcion, structs, enums deben tener 'pub' para hacerlo visibles fuera del modulo.
+ *  Tambien es posible crear otro archivo.rs para englobarlos en un modulo dentro del mismo folder donde son importados. Es lo mas apropiado cuando se quiere separar un modulo para organizar el codigo pero no necesita expanderse a varios archivos.
+ *  Se puede importar como - mod content; y accederse como content::Catalog::new(); o use content::Catalog;
+ *  Otra opcion es esparcir el codigo en varios archivos dentro de una nueva carpeta y unirlos en un solo modulo el cual puede ser importado en main.rs. De esta forma no seria posible saltarse niveles, X:main>media-module. Ok:main>content module>media-module
+ */
+//importacion de modulos:
+mod content;
+use content::catalog::Catalog;
+use content::media::Media;
 //lifetime anotation <'a>
 //se utiliza para manejar errores donde el valor existe o no existe
 // enum MightHaveAValue<'a> {
@@ -100,12 +37,9 @@ impl Catalog {
 //     NoValueAvailable,
 // }
 
-fn print_media(media: Media) {
-    println!("{:#?}", media);
-}
-
 fn main() {
-    let audiobook = Media::Audiobook {
+    //importar media desde content de forma mas extense que catalog
+    let audiobook = content::media::Media::Audiobook {
         title: String::from("An Audiobook"),
     };
     let good_movie = Media::Movie {
